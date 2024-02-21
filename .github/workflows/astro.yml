@@ -65,9 +65,12 @@ jobs:
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
         working-directory: ${{ env.BUILD_PATH }}
       - name: Build with Astro
-        run: |
-          ${{ steps.detect-package-manager.outputs.runner }} build
-        working-directory: ${{ env.BUILD_PATH }}
+        uses: pnpm/action-setup@v3
+        with:
+          version: 8
+          run: |
+            ${{ steps.detect-package-manager.outputs.runner }} build
+          working-directory: ${{ env.BUILD_PATH }}
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
