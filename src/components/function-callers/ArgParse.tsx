@@ -1,5 +1,6 @@
 import {
   BooleanCV,
+  BufferCV,
   ClarityValue,
   PrincipalCV,
   StringAsciiCV,
@@ -11,6 +12,7 @@ import { useMemo } from "react"
 import StringAsciiParser from "./parsers/StringAsciiParser"
 import PrincipalParser from "./parsers/PrincipalParser"
 import BoolParser from "./parsers/BoolParser"
+import BuffParser from "./parsers/BuffParser"
 
 export default function ArgParse({
   arg,
@@ -56,6 +58,15 @@ export default function ArgParse({
           onChange={onChange}
           value={value as StringAsciiCV}
           maxLength={arg.type["string-ascii"].length}
+        />
+      )
+    }
+    if (arg.type.buffer) {
+      return (
+        <BuffParser
+          name={arg.name}
+          onChange={onChange}
+          value={value as BufferCV}
         />
       )
     }
