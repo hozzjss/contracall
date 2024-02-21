@@ -1,6 +1,11 @@
 export type Primitive = "bool" | "uint128" | "principal"
-type Optional = {
-  optional: Primitive | Tuple | List | never
+export type LengthSpecified = {
+  "string-utf8": { length: number } | never
+  "string-ascii": { length: number } | never
+  buffer: { length: number } | never
+}
+export type Optional = {
+  optional: Primitive | ComplexType
 }
 export type Tuple = Array<{
   name: string
@@ -14,10 +19,8 @@ export type List = {
 export type ComplexType = {
   tuple: Tuple | never
   list: List | never
-  "string-utf8": { length: number } | never
-  "string-ascii": { length: number } | never
-  buffer: { length: number } | never
-} & Optional
+} & Optional &
+  LengthSpecified
 
 export type FnArg = {
   name: string
