@@ -25,7 +25,6 @@ export default function CallPublic({
     (values) => {
       // const stringifiedArgs = Object.values(values).map((item) => cvToHex(item))
       // setArgs(stringifiedArgs)
-      console.log({ values })
       doContractCall({
         contractAddress: address,
         contractName: name,
@@ -33,6 +32,15 @@ export default function CallPublic({
         functionArgs: Object.values(values),
         postConditionMode: PostConditionMode.Allow,
         network: new StacksMainnet(),
+        onFinish({ txId }) {
+          window
+            .open(
+              "https://explorer.hiro.so/txid/" + txId,
+              "_blank",
+              "noopener noreferrer"
+            )
+            ?.focus()
+        },
       })
     },
     [address, doContractCall, fn.name, name]
