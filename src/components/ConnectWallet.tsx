@@ -5,8 +5,8 @@ import { userSession } from "../user-session"
 function authenticate() {
   showConnect({
     appDetails: {
-      name: "Stacks React Starter",
-      icon: window.location.origin + "/logo512.png",
+      name: "Friedger",
+      icon: window.location.origin + "/friedger.jpg",
     },
     redirectTo: "/",
     onFinish: () => {

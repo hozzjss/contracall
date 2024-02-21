@@ -1,5 +1,6 @@
 {
-  "name": "contracall",
+  "name": "friedger",
+  "description": "call smart contracts unsafely",
   "private": true,
   "version": "0.0.0",
   "type": "module",

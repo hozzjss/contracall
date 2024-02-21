@@ -1,13 +1,13 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import App from "./App.js";
-import "./index.css";
+import React from "react"
+import ReactDOM from "react-dom/client"
+import App from "./App.js"
+import "./index.css"
 
-import { Connect } from "@stacks/connect-react";
+import { Connect } from "@stacks/connect-react"
 
-import { userSession } from "./user-session.js";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-const queryClient = new QueryClient();
+import { userSession } from "./user-session.js"
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
+const queryClient = new QueryClient()
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
@@ -15,12 +15,12 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
       <Connect
         authOptions={{
           appDetails: {
-            name: "Stacks React Template",
-            icon: window.location.origin + "/logo.png",
+            name: "Friedger",
+            icon: window.location.origin + "/friedger.jpg",
           },
           redirectTo: "/",
           onFinish: () => {
-            window.location.reload();
+            window.location.reload()
           },
           userSession,
         }}
@@ -29,4 +29,4 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
       </Connect>
     </QueryClientProvider>
   </React.StrictMode>
-);
+)
