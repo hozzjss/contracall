@@ -1,4 +1,11 @@
-import { useState, useEffect } from "react"
+import {
+  useState,
+  useEffect,
+  createContext,
+  useMemo,
+  useContext,
+  useCallback,
+} from "react"
 
 function getSearchParams(search: string) {
   const hashes = search.slice(search.indexOf("?") + 1).split("&")
@@ -35,4 +42,21 @@ export function useSearchParams() {
   }
 
   return [searchParams, updateUrl] as const
+}
+
+export const SearchParams = createContext<{
+  params: Record<string, string>
+  updateUrl: (params: Record<string, string>) => void
+}>({ params: {}, updateUrl: () => {} })
+
+export function useSearchValue(key: string) {
+  const { params, updateUrl } = useContext(SearchParams)
+  const value = useMemo(() => params[key] || "", [params])
+  const setValue = useCallback((name: string) => {
+    updateUrl({
+      ...params,
+      [key]: name,
+    })
+  }, [])
+  return [value, setValue] as const
 }
