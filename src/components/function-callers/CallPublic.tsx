@@ -6,6 +6,7 @@ import { ClarityValue, PostConditionMode } from "@stacks/transactions"
 import { asciiRegex } from "../../util/checkValidAscii"
 import { useConnect } from "@stacks/connect-react"
 import { StacksMainnet } from "@stacks/network"
+
 export default function CallPublic({
   fn,
   contractName,

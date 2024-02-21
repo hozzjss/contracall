@@ -10,7 +10,7 @@ import {
 function getSearchParams(search: string) {
   const hashes = search.slice(search.indexOf("?") + 1).split("&")
   return hashes.reduce((params, hash) => {
-    let [key, val] = hash.split("=")
+    const [key, val] = hash.split("=")
     params[key] = decodeURIComponent(val)
     return params
   }, {} as Record<string, string>)
@@ -20,16 +20,17 @@ export function useSearchParams() {
   const [searchParams, setSearchParams] = useState(() =>
     getSearchParams(window.location.search)
   )
-  function onChange() {
-    setSearchParams(getSearchParams(window.location.search))
-  }
 
   useEffect(() => {
+    function onChange() {
+      setSearchParams(getSearchParams(window.location.search))
+    }
     window.addEventListener("popstate", onChange)
     return () => window.removeEventListener("popstate", onChange)
   }, [])
 
-  function updateUrl(params: Record<string, string>) {
+  const updateUrl = useCallback((params: Record<string, string>) => {
+    setSearchParams(params)
     const newSearch = Object.entries(params)
       .map(
         ([key, value]) =>
@@ -38,8 +39,7 @@ export function useSearchParams() {
       .join("&")
 
     window.history.pushState({}, "", `?${newSearch}`)
-    onChange()
-  }
+  }, [])
 
   return [searchParams, updateUrl] as const
 }
@@ -51,12 +51,15 @@ export const SearchParams = createContext<{
 
 export function useSearchValue(key: string) {
   const { params, updateUrl } = useContext(SearchParams)
-  const value = useMemo(() => params[key] || "", [params])
-  const setValue = useCallback((name: string) => {
-    updateUrl({
-      ...params,
-      [key]: name,
-    })
-  }, [])
+  const value = useMemo(() => params[key] || "", [key, params])
+  const setValue = useCallback(
+    (name: string) => {
+      updateUrl({
+        ...params,
+        [key]: name,
+      })
+    },
+    [key, params, updateUrl]
+  )
   return [value, setValue] as const
 }

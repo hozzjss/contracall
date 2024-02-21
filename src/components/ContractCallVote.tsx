@@ -2,15 +2,16 @@ import { useQuery } from "@tanstack/react-query"
 
 import { userSession } from "../user-session"
 import { queries } from "../stacks-api/queries"
-import { FormEvent, useMemo } from "react"
+import { FormEvent, useCallback, useContext, useMemo } from "react"
 import FunctionList from "./FunctionList"
-import { useSearchValue } from "../hooks/useSearchParams"
+import { SearchParams, useSearchValue } from "../hooks/useSearchParams"
 import { ContractFn } from "../util/stacks-types"
 import Input from "./ui/Input"
 import { CallFn } from "./CallFn"
 
 const ContractCallVote = () => {
-  const [contractName, setContractName] = useSearchValue("contract-name")
+  const { updateUrl } = useContext(SearchParams)
+  const [contractName] = useSearchValue("contract-name")
   const [address, name] = useMemo(() => contractName.split("."), [contractName])
   const { data } = useQuery({
     ...queries.contracts.interface({
@@ -23,19 +24,25 @@ const ContractCallVote = () => {
   const [fnName, setFnName] = useSearchValue("fn-name")
   const selectedFn = useMemo(
     () => (data?.functions as ContractFn[])?.find((fn) => fn.name === fnName),
-    [fnName, data]
+    [fnName, data?.functions]
   )
 
-  function getContract(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault()
+  const getContract = useCallback(
+    (e: FormEvent<HTMLFormElement>) => {
+      e.preventDefault()
+      updateUrl({
+        "contract-name": (e.currentTarget[0] as HTMLInputElement).value,
+      })
+    },
+    [updateUrl]
+  )
 
-    setContractName((e.currentTarget[0] as HTMLInputElement).value)
-  }
-
-  const handleSelectFn = (fn: ContractFn) => {
-    console.log(fn)
-    setFnName(fn.name)
-  }
+  const handleSelectFn = useCallback(
+    (fn: ContractFn) => {
+      setFnName(fn.name)
+    },
+    [setFnName]
+  )
 
   if (!userSession.isUserSignedIn()) {
     return null
