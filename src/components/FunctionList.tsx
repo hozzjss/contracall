@@ -20,9 +20,9 @@ export default function FunctionList(props: {
           {hidden ? "unhide" : "hide"}
         </button>
       </div>
-      <ul className="max-h-64 overflow-auto w-full flex flex-col gap-y-4 p-4">
-        {!hidden &&
-          fns.map((contractFn) => {
+      {!hidden && (
+        <ul className="max-h-64 overflow-auto w-full flex flex-col gap-y-4 p-4">
+          {fns.map((contractFn) => {
             return (
               <li
                 onClick={() => props.onSelect(contractFn)}
@@ -33,7 +33,8 @@ export default function FunctionList(props: {
               </li>
             )
           })}
-      </ul>
+        </ul>
+      )}
     </div>
   )
 }

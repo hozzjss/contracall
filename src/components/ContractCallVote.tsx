@@ -6,6 +6,8 @@ import { FormEvent, useMemo } from "react"
 import FunctionList from "./FunctionList"
 import { useSearchValue } from "../hooks/useSearchParams"
 import { ContractFn } from "../util/stacks-types"
+import Input from "./ui/Input"
+import { CallFn } from "./CallFn"
 
 const ContractCallVote = () => {
   const [contractName, setContractName] = useSearchValue("contract-name")
@@ -40,23 +42,27 @@ const ContractCallVote = () => {
   }
 
   return (
-    <form onSubmit={getContract}>
-      <label className="flex flex-col gap-y-4 my-12">
-        Gimme contract name
-        <input
-          type="text"
-          name="contract-name"
-          className="caret-white outline-none p-4"
-          placeholder="Contract name"
-          defaultValue={contractName}
-        />
-      </label>
-      <button className="Vote">Get contract</button>
+    <div>
+      <form onSubmit={getContract}>
+        <label className="flex flex-col gap-y-4 my-12">
+          Gimme contract name
+          <Input
+            type="text"
+            name="contract-name"
+            placeholder="Contract name"
+            defaultValue={contractName}
+          />
+        </label>
+        <button className="Vote">Get contract</button>
+      </form>
 
       <div className="mt-12">
         {data && <FunctionList onSelect={handleSelectFn} data={data} />}
       </div>
-    </form>
+      <div className="mt-12">
+        {selectedFn && <CallFn contractName={contractName} fn={selectedFn} />}
+      </div>
+    </div>
   )
 }
 
