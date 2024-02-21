@@ -3,21 +3,30 @@ import { useQuery } from "@tanstack/react-query"
 
 import { userSession } from "../user-session"
 import { queries } from "../stacks-api/queries"
-import { useMemo, useState } from "react"
+import { FormEvent, useMemo, useState } from "react"
 import FunctionList from "./FunctionList"
+import { useSearchParams } from "../hooks/useSearchParams"
 
 const ContractCallVote = () => {
-  const [contractName, setContractName] = useState("")
+  const [params, updateParams] = useSearchParams()
+  const contractName = useMemo(() => params["contract-name"] || "", [params])
+  const setContractName = (name: string) => {
+    updateParams({
+      "contract-name": name,
+    })
+  }
   const [address, name] = useMemo(() => contractName.split("."), [contractName])
-  const { refetch, data } = useQuery({
+  const { data } = useQuery({
     ...queries.contracts.interface({
       address,
       name,
     }),
-    enabled: false,
+    enabled: !!contractName,
   })
-  function getContract() {
-    refetch()
+  function getContract(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault()
+
+    setContractName((e.currentTarget[0] as HTMLInputElement).value)
   }
 
   if (!userSession.isUserSignedIn()) {
@@ -25,7 +34,7 @@ const ContractCallVote = () => {
   }
 
   return (
-    <div>
+    <form onSubmit={getContract}>
       <label className="flex flex-col gap-y-4 my-12">
         Gimme contract name
         <input
@@ -33,16 +42,13 @@ const ContractCallVote = () => {
           name="contract-name"
           className="caret-white outline-none p-4"
           placeholder="Contract name"
-          value={contractName}
-          onChange={(e) => setContractName(e.target.value)}
+          defaultValue={contractName}
         />
       </label>
-      <button className="Vote" onClick={getContract}>
-        Get contract
-      </button>
+      <button className="Vote">Get contract</button>
 
       <div className="mt-12">{data && <FunctionList data={data} />}</div>
-    </div>
+    </form>
   )
 }
 

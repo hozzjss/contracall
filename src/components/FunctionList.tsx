@@ -26,7 +26,7 @@ export default function FunctionList(props: {
             className="w-full bg-gray-700 py-4 hover:bg-gray-600 cursor-pointer"
             key={contractFn.name}
           >
-            {contractFn.name}
+            {contractFn.name} ({contractFn.access})
           </li>
         )
       })}
