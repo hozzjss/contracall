@@ -4,20 +4,21 @@ const project = resolve(process.cwd(), "tsconfig.json");
 
 /** @type {import("eslint").Linter.Config} */
 module.exports = {
+  parser: "@typescript-eslint/parser",
+  plugins: ["react-refresh"],
   extends: [
     "eslint:recommended",
     "prettier",
-    require.resolve("@vercel/style-guide/eslint/next"),
+    "plugin:@typescript-eslint/recommended",
+    "plugin:react-hooks/recommended",
+    require.resolve("@vercel/style-guide/eslint/react"),
     "eslint-config-turbo",
   ],
   globals: {
     React: true,
     JSX: true,
   },
-  env: {
-    node: true,
-    browser: true,
-  },
+  env: { browser: true, es2020: true },
   plugins: ["only-warn"],
   settings: {
     "import/resolver": {
@@ -30,6 +31,16 @@ module.exports = {
     // Ignore dotfiles
     ".*.js",
     "node_modules/",
+    "dist",
+    ".eslintrc.cjs",
+    "index.html",
   ],
+  rules: {
+    "react-refresh/only-export-components": [
+      "warn",
+      { allowConstantExport: true },
+    ],
+    "no-console": ["error"],
+  },
   overrides: [{ files: ["*.js?(x)", "*.ts?(x)"] }],
 };
