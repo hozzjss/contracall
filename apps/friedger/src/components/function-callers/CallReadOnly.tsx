@@ -1,7 +1,7 @@
 import { Controller, SubmitHandler, useForm } from "react-hook-form"
 import { ContractFn } from "../../util/stacks-types"
 import ArgParse from "./ArgParse"
-import { useCallback, useMemo, useState } from "react"
+import { useCallback, useEffect, useMemo, useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 import { queries } from "../../stacks-api/queries"
 import { userSession } from "../../user-session"
@@ -20,10 +20,17 @@ export default function CallReadOnlyFn({
   fn: ContractFn
   contractName: string
 }) {
-  const { control, handleSubmit } = useForm<{
+  const {
+    control,
+    handleSubmit,
+    formState: { errors, isValid },
+  } = useForm<{
     [x: string]: ClarityValue
   }>()
-  const [address, name] = useMemo(() => contractName.split("."), [contractName])
+  const [address, name] = useMemo(
+    () => contractName.split(".") as [string, string],
+    [contractName],
+  )
   const sender = useMemo(() => {
     return userSession.loadUserData().profile.stxAddress.mainnet as string
   }, [])
@@ -36,17 +43,22 @@ export default function CallReadOnlyFn({
       sender,
       args,
     }),
-    enabled: !!args.length,
+    enabled: fn.args.length === args.length,
     retry: false,
   })
+
+  useEffect(() => {
+    setArgs([])
+  }, [fn.name])
 
   const onSubmit: SubmitHandler<{ [x: number]: ClarityValue }> = useCallback(
     (values) => {
       const stringifiedArgs = Object.values(values).map((item) => cvToHex(item))
       setArgs(stringifiedArgs)
     },
-    []
+    [],
   )
+  console.log({ errors, isValid })
 
   return (
     <form
@@ -65,7 +77,8 @@ export default function CallReadOnlyFn({
           )}
         />
       ))}
-      <button type="submit">Call</button>
+
+      {!!fn.args.length && <button type="submit">Call</button>}
       <p>{data?.result && cvToString(hexToCV(data.result))}</p>
     </form>
   )
