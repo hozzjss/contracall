@@ -16,7 +16,10 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         authOptions={{
           appDetails: {
             name: "Friedger",
-            icon: window.location.origin + "/friedger.jpg",
+            icon:
+              window.location.origin +
+              import.meta.env.BASE_URL +
+              "friedger.jpg",
           },
           redirectTo: "/",
           onFinish: () => {
@@ -28,5 +31,5 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         <App />
       </Connect>
     </QueryClientProvider>
-  </React.StrictMode>
+  </React.StrictMode>,
 )

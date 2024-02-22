@@ -6,7 +6,7 @@ function authenticate() {
   showConnect({
     appDetails: {
       name: "Friedger",
-      icon: window.location.origin + "/friedger.jpg",
+      icon: window.location.origin + import.meta.env.BASE_URL + "friedger.jpg",
     },
     redirectTo: "/",
     onFinish: () => {
