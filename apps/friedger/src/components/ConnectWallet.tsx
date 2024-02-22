@@ -17,7 +17,7 @@ function authenticate() {
 }
 
 function disconnect() {
-  userSession.signUserOut("/")
+  userSession.signUserOut()
 }
 
 const ConnectWallet = () => {
