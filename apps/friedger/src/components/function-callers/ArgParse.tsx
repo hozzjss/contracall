@@ -52,7 +52,7 @@ export default function ArgParse({
           />
         )
       }
-      if (arg.type === "principal") {
+      if (arg.type === "principal" || arg.type === "trait_reference") {
         return (
           <PrincipalParser
             name={arg.name}
@@ -82,7 +82,7 @@ export default function ArgParse({
       }
       return null
     },
-    [onChange, value]
+    [onChange, value],
   )
   const cmp = useMemo(() => {
     if (optionalWrapper) {

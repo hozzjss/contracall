@@ -1,4 +1,4 @@
-export type Primitive = "bool" | "uint128" | "principal"
+export type Primitive = "bool" | "uint128" | "principal" | "trait_reference"
 export type LengthSpecified = {
   "string-utf8": { length: number } | never
   "string-ascii": { length: number } | never
