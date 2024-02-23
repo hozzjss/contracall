@@ -19,7 +19,8 @@ module.exports = {
     JSX: true,
   },
   env: { browser: true, es2020: true },
-  plugins: ["only-warn"],
+  plugins: ["only-warn", "react", "react-hooks", "react-refresh"],
+
   settings: {
     "import/resolver": {
       typescript: {

@@ -55,23 +55,43 @@ const contractText = `
     (ok (ft-get-supply $FT_NAME)))
 `
 
-export default function writeShitCoinContract({}: {
+const variablesMap = {
+  $TOKEN_NAME: /\$TOKEN_NAME/g,
+  $DESCRIPTION: /\$DESCRIPTION/g,
+  $FT_NAME: /\$FT_NAME/g,
+  $TOKEN_SYMBOL: /\$TOKEN_SYMBOL/g,
+  $TOKEN_DECIMALS: /\$TOKEN_DECIMALS/g,
+  $SUPPLY: /\$SUPPLY/g,
+  $MAX_MINT: /\$MAX_MINT/g,
+  $METADATA_IPFS_CID: /\$METADATA_IPFS_CID/g,
+}
+
+export default function writeShitCoinContract({
+  tokenName,
+  supply,
+  symbol,
+  decimals,
+  description,
+  maxMintAmount,
+  ft_name,
+  metadataIpfsCID,
+}: {
+  ft_name: string
   tokenName: string
   supply: number
   symbol: string
   decimals: number
-  image: string
   description: string
   maxMintAmount: number
+  metadataIpfsCID: string
 }) {
-  const variables = [
-    "$TOKEN_NAME",
-    "$DESCRIPTION",
-    "$FT_NAME",
-    "$MAX_MINT",
-    "$SUPPLY",
-    "$TOKEN_DECIMALS",
-    "$TOKEN_SYMBOL",
-    "$METADATA_IPFS_CID",
-  ]
+  return contractText
+    .replace(variablesMap.$TOKEN_NAME, tokenName)
+    .replace(variablesMap.$DESCRIPTION, description)
+    .replace(variablesMap.$FT_NAME, ft_name)
+    .replace(variablesMap.$TOKEN_SYMBOL, symbol)
+    .replace(variablesMap.$TOKEN_DECIMALS, String(decimals))
+    .replace(variablesMap.$SUPPLY, String(supply))
+    .replace(variablesMap.$MAX_MINT, String(maxMintAmount))
+    .replace(variablesMap.$METADATA_IPFS_CID, String(metadataIpfsCID))
 }
