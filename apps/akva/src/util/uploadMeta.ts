@@ -1,6 +1,7 @@
 import { NFTStorage } from "nft.storage"
 const storage = new NFTStorage({
-  token: import.meta.env.VITE_APP_NFT_STORAGE_TOKEN!,
+  token:
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweENmRGI3ODU2NEI1NTI5Yzg5NjgwYWEyOUM3OEU4ODg4MTAxQThGZmYiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTcwODY1NDQ1MDc5NSwibmFtZSI6ImFrdmEifQ.5OsnuqiqT7DvS-DoB0Rrv_kKJIpbmLvtv_t8hYvUH38",
 })
 
 export const uploadMeta = async ({
