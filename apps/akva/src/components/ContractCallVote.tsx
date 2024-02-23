@@ -4,6 +4,7 @@ import { useCallback } from "react"
 import writeShitCoinContract from "../util/write-shitcoin-contract"
 import { uploadMeta } from "../util/uploadMeta"
 import { useConnect } from "@stacks/connect-react"
+import { StacksMainnet } from "@stacks/network"
 
 type AkvaFormValues = {
   name: string
@@ -48,6 +49,7 @@ function ContractCallVote() {
       await doContractDeploy({
         codeBody: contractCode,
         contractName: ft_name,
+        network: new StacksMainnet(),
         onFinish: ({ txId }) => {
           window
             .open(

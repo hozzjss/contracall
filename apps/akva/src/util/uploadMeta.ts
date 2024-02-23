@@ -1,5 +1,7 @@
 import { NFTStorage } from "nft.storage"
-const storage = new NFTStorage({ token: import.meta.env.NFT_STORAGE_TOKEN! })
+const storage = new NFTStorage({
+  token: import.meta.env.VITE_APP_NFT_STORAGE_TOKEN!,
+})
 
 export const uploadMeta = async ({
   description,
@@ -15,7 +17,7 @@ export const uploadMeta = async ({
   const json = {
     name,
     description,
-    image: imageCID,
+    image: `ipfs://ipfs/${imageCID}`,
   }
 
   const jsonBlob = JSON.stringify(json)
