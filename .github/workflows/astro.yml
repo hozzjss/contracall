@@ -70,6 +70,8 @@ jobs:
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
         working-directory: ${{ env.BUILD_PATH }}
       - name: Build with Astro
+        env:
+          VITE_APP_NFT_STORAGE_TOKEN: ${{ env.VITE_APP_NFT_STORAGE_TOKEN }}
         run: |
           ${{ steps.detect-package-manager.outputs.runner }} build
         working-directory: ${{ env.BUILD_PATH }}
