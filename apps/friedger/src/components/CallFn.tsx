@@ -10,7 +10,7 @@ export function CallFn({
   contractName: string
 }) {
   if (fn.access === "read_only") {
-    return <CallReadOnlyFn fn={fn} contractName={contractName} />
+    return <CallReadOnlyFn contractName={contractName} fn={fn} />
   }
-  return <CallPublic fn={fn} contractName={contractName} />
+  return <CallPublic contractName={contractName} fn={fn} />
 }

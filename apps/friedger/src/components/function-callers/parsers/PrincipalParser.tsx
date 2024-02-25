@@ -38,7 +38,7 @@ export default function PrincipalParser({
       name={name}
       onBlur={onBlur}
       onChange={handleChange}
-      placeholder="valid stx address"
+      placeholder="valid stx address or contract address"
       type="text"
       value={internalValue}
     />

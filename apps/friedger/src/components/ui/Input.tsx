@@ -8,10 +8,10 @@ export default function Input(
   return (
     <input
       {...props}
-      ref={props.inputRef}
       className={
         "caret-white outline-none px-4 py-2 " + (props.className || "")
       }
+      ref={props.inputRef}
     />
   )
 }

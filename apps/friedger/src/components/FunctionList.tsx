@@ -16,7 +16,7 @@ export default function FunctionList(props: {
     <div>
       <div className="flex justify-between items-center mb-8">
         <h2 className="text-xl font-bold">Functions</h2>
-        <button onClick={() => setHidden(!hidden)}>
+        <button onClick={() => setHidden(!hidden)} type="button">
           {hidden ? "unhide" : "hide"}
         </button>
       </div>
@@ -25,9 +25,11 @@ export default function FunctionList(props: {
           {fns.map((contractFn) => {
             return (
               <li
-                onClick={() => props.onSelect(contractFn)}
                 className="w-full bg-gray-700 p-4 hover:bg-gray-600 cursor-pointer"
                 key={contractFn.name}
+                onClick={() => props.onSelect(contractFn)}
+                onKeyUp={() => props.onSelect(contractFn)}
+                role="menuitem"
               >
                 {contractFn.name} ({contractFn.access})
               </li>

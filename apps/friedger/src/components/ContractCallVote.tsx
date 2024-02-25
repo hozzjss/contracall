@@ -9,10 +9,13 @@ import { ContractFn } from "../util/stacks-types"
 import Input from "./ui/Input"
 import { CallFn } from "./CallFn"
 
-const ContractCallVote = () => {
+function ContractCallVote() {
   const { updateUrl } = useContext(SearchParams)
   const [contractName] = useSearchValue("contract-name")
-  const [address, name] = useMemo(() => contractName.split("."), [contractName])
+  const [address, name] = useMemo(
+    () => contractName.split(".") as [string, string],
+    [contractName],
+  )
   const { data } = useQuery({
     ...queries.contracts.interface({
       address,
@@ -24,7 +27,7 @@ const ContractCallVote = () => {
   const [fnName, setFnName] = useSearchValue("fn-name")
   const selectedFn = useMemo(
     () => (data?.functions as ContractFn[])?.find((fn) => fn.name === fnName),
-    [fnName, data?.functions]
+    [fnName, data?.functions],
   )
 
   const getContract = useCallback(
@@ -34,14 +37,14 @@ const ContractCallVote = () => {
         "contract-name": (e.currentTarget[0] as HTMLInputElement).value,
       })
     },
-    [updateUrl]
+    [updateUrl],
   )
 
   const handleSelectFn = useCallback(
     (fn: ContractFn) => {
       setFnName(fn.name)
     },
-    [setFnName]
+    [setFnName],
   )
 
   if (!userSession.isUserSignedIn()) {
@@ -51,23 +54,27 @@ const ContractCallVote = () => {
   return (
     <div>
       <form onSubmit={getContract}>
-        <label className="flex flex-col gap-y-4 my-12">
+        <label className="flex flex-col gap-y-4 my-12" htmlFor="contract-name">
           Gimme contract name
           <Input
-            type="text"
+            defaultValue={contractName}
             name="contract-name"
             placeholder="Contract name"
-            defaultValue={contractName}
+            type="text"
           />
         </label>
-        <button className="Vote">Get contract</button>
+        <button className="Vote" type="submit">
+          Get contract
+        </button>
       </form>
 
       <div className="mt-12">
-        {data && <FunctionList onSelect={handleSelectFn} data={data} />}
+        {data ? <FunctionList data={data} onSelect={handleSelectFn} /> : null}
       </div>
       <div className="mt-12">
-        {selectedFn && <CallFn contractName={contractName} fn={selectedFn} />}
+        {selectedFn ? (
+          <CallFn contractName={contractName} fn={selectedFn} />
+        ) : null}
       </div>
     </div>
   )

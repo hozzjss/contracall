@@ -20,11 +20,11 @@ function disconnect() {
   userSession.signUserOut()
 }
 
-const ConnectWallet = () => {
+function ConnectWallet() {
   if (userSession.isUserSignedIn()) {
     return (
       <div>
-        <button className="Connect" onClick={disconnect}>
+        <button className="Connect" onClick={disconnect} type="button">
           Disconnect Wallet
         </button>
         {/* <p>mainnet: {userSession.loadUserData().profile.stxAddress.mainnet}</p>
@@ -34,7 +34,7 @@ const ConnectWallet = () => {
   }
 
   return (
-    <button className="Connect" onClick={authenticate}>
+    <button className="Connect" onClick={authenticate} type="button">
       Connect Wallet
     </button>
   )
