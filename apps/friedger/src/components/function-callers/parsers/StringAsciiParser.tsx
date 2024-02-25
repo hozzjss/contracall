@@ -1,18 +1,16 @@
 import { StringAsciiCV, stringAsciiCV } from "@stacks/transactions"
 import { useCallback, useState } from "react"
 import Input from "../../ui/Input"
+import { ParserProps } from "./util/types"
 
 export default function StringAsciiParser({
   value,
   onChange,
-  maxLength,
   name,
-}: {
-  value?: StringAsciiCV
-  onChange: (value: StringAsciiCV) => void
-  name: string
-  maxLength: number
-}) {
+  inputRef,
+  onBlur,
+  disabled,
+}: ParserProps<StringAsciiCV>) {
   const [internalValue, setInternalValue] = useState(String(value?.data))
 
   const handleChange = useCallback(
@@ -20,17 +18,19 @@ export default function StringAsciiParser({
       setInternalValue(e.target.value)
       onChange(stringAsciiCV(e.target.value))
     },
-    [onChange]
+    [onChange],
   )
 
   return (
     <Input
+      disabled={disabled}
+      inputRef={inputRef}
       name={name}
-      maxLength={maxLength}
+      onBlur={onBlur}
+      onChange={handleChange}
+      placeholder="ascii text"
       type="text"
       value={internalValue}
-      placeholder={`up to ${maxLength} characters`}
-      onChange={handleChange}
     />
   )
 }

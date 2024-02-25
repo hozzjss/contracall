@@ -2,20 +2,18 @@ import { useCallback, useState } from "react"
 import Input from "../../ui/Input"
 import { BufferCV, bufferCVFromString } from "@stacks/transactions"
 import { bufferFromHex } from "@stacks/transactions/dist/cl"
+import { ParserProps } from "./util/types"
 
 export default function BuffParser({
   value,
   onChange,
-  // maxLength,
   name,
-}: {
-  value?: BufferCV
-  onChange: (value: BufferCV) => void
-  name: string
-  // maxLength: number
-}) {
+  inputRef,
+  onBlur,
+  disabled,
+}: ParserProps<BufferCV>) {
   const [internalValue, setInternalValue] = useState(
-    value?.buffer ? String(value?.buffer) : ""
+    value?.buffer ? String(value?.buffer) : "",
   )
 
   const handleChange = useCallback(
@@ -30,16 +28,19 @@ export default function BuffParser({
       }
       onChange(buffValue)
     },
-    [onChange]
+    [onChange],
   )
 
   return (
     <Input
+      disabled={disabled}
+      inputRef={inputRef}
       name={name}
+      onBlur={onBlur}
+      onChange={handleChange}
+      placeholder="start with 0x for hex"
       type="text"
       value={internalValue}
-      placeholder={`start with 0x for hex`}
-      onChange={handleChange}
     />
   )
 }

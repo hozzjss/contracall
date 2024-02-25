@@ -17,7 +17,10 @@ export default function CallPublic({
   const { control, handleSubmit } = useForm<{
     [x: string]: ClarityValue
   }>()
-  const [address, name] = useMemo(() => contractName.split("."), [contractName])
+  const [address, name] = useMemo(
+    () => contractName.split(".") as [string, string],
+    [contractName],
+  )
 
   const { doContractCall } = useConnect()
 
@@ -37,13 +40,13 @@ export default function CallPublic({
             .open(
               "https://explorer.hiro.so/txid/" + txId,
               "_blank",
-              "noopener noreferrer"
+              "noopener noreferrer",
             )
             ?.focus()
         },
       })
     },
-    [address, doContractCall, fn.name, name]
+    [address, doContractCall, fn.name, name],
   )
 
   return (
@@ -54,13 +57,20 @@ export default function CallPublic({
       <h3 className="text-lg font-bold">{fn.name}</h3>
       {fn.args.map((arg, index) => (
         <Controller
-          name={String(index)}
           control={control}
-          rules={{ required: true, pattern: asciiRegex }}
           key={`${fn.name}.${arg.name}`}
-          render={({ field }) => (
-            <ArgParse arg={arg} onChange={field.onChange} value={field.value} />
+          name={String(index)}
+          render={({ field: { onBlur, onChange, ref, value, disabled } }) => (
+            <ArgParse
+              arg={arg}
+              disabled={disabled}
+              inputRef={ref}
+              onBlur={onBlur}
+              onChange={onChange}
+              value={value}
+            />
           )}
+          rules={{ required: true, pattern: asciiRegex }}
         />
       ))}
       <button type="submit">Call</button>

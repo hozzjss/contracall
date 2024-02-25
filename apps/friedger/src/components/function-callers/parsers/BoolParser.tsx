@@ -1,18 +1,18 @@
 import { useCallback, useState } from "react"
 import Input from "../../ui/Input"
 import { BooleanCV, ClarityType, boolCV } from "@stacks/transactions"
+import { ParserProps } from "./util/types"
 
 export default function BoolParser({
   value,
   onChange,
   name,
-}: {
-  value?: BooleanCV
-  onChange: (value: BooleanCV) => void
-  name: string
-}) {
+  inputRef,
+  onBlur,
+  disabled,
+}: ParserProps<BooleanCV>) {
   const [internalValue, setInternalValue] = useState(
-    value?.type === ClarityType.BoolTrue
+    value?.type === ClarityType.BoolTrue,
   )
 
   const handleChange = useCallback(
@@ -20,15 +20,18 @@ export default function BoolParser({
       setInternalValue(e.target.checked)
       onChange(boolCV(e.target.checked))
     },
-    [onChange]
+    [onChange],
   )
 
   return (
     <Input
-      name={name}
-      type="checkbox"
       checked={internalValue}
+      disabled={disabled}
+      inputRef={inputRef}
+      name={name}
+      onBlur={onBlur}
       onChange={handleChange}
+      type="checkbox"
     />
   )
 }

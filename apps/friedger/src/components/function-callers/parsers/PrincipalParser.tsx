@@ -6,38 +6,41 @@ import {
   principalCV,
   validateStacksAddress,
 } from "@stacks/transactions"
+import { ParserProps } from "./util/types"
 
 export default function PrincipalParser({
   value,
   onChange,
   name,
-}: {
-  name: string
-  value?: PrincipalCV
-  onChange: (value: PrincipalCV) => void
-}) {
+  inputRef,
+  onBlur,
+  disabled,
+}: ParserProps<PrincipalCV>) {
   const [internalValue, setInternalValue] = useState<string>(
-    value ? addressToString(value.address) : ""
+    value ? addressToString(value.address) : "",
   )
 
   const handleChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const value = e.target.value
       setInternalValue(value)
-      if (validateStacksAddress(value.split(".")[0])) {
+      if (validateStacksAddress(value.split(".")[0] as string)) {
         onChange(principalCV(value))
       }
     },
-    [onChange]
+    [onChange],
   )
 
   return (
     <Input
+      disabled={disabled}
+      inputRef={inputRef}
       name={name}
+      onBlur={onBlur}
+      onChange={handleChange}
+      placeholder="valid stx address"
       type="text"
       value={internalValue}
-      placeholder="valid stx address"
-      onChange={handleChange}
     />
   )
 }
