@@ -1,5 +1,5 @@
 import ConnectWallet from "./components/ConnectWallet"
-import ContractCallVote from "./components/BuildContract"
+import BuildContract from "./components/BuildContract"
 
 function App() {
   return (
@@ -12,7 +12,7 @@ function App() {
       </div>
 
       <ConnectWallet />
-      <ContractCallVote />
+      <BuildContract />
     </>
   )
 }

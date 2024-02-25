@@ -1,5 +1,5 @@
 import ConnectWallet from "./components/ConnectWallet"
-import ContractCallVote from "./components/ContractCaller"
+import ContractCaller from "./components/ContractCaller"
 import { SearchParams, useSearchParams } from "./hooks/useSearchParams"
 
 function App() {
@@ -19,7 +19,7 @@ function App() {
         </div>
 
         <ConnectWallet />
-        <ContractCallVote />
+        <ContractCaller />
       </>
     </SearchParams.Provider>
   )
