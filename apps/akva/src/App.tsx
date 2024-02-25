@@ -1,5 +1,5 @@
 import ConnectWallet from "./components/ConnectWallet"
-import ContractCallVote from "./components/ContractCallVote"
+import ContractCallVote from "./components/BuildContract"
 
 function App() {
   return (
