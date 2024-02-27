@@ -5,7 +5,7 @@ import { useCallback, useMemo } from "react"
 import { ClarityValue, PostConditionMode } from "@stacks/transactions"
 import { asciiRegex } from "../../util/checkValidAscii"
 import { useConnect } from "@stacks/connect-react"
-import { StacksMainnet } from "@stacks/network"
+import { StacksMainnet, StacksTestnet } from "@stacks/network"
 
 export default function CallPublic({
   fn,
@@ -34,7 +34,9 @@ export default function CallPublic({
         functionName: fn.name,
         functionArgs: Object.values(values),
         postConditionMode: PostConditionMode.Allow,
-        network: new StacksMainnet(),
+        network: name.startsWith("ST")
+          ? new StacksTestnet()
+          : new StacksMainnet(),
         onFinish({ txId }) {
           window
             .open(
