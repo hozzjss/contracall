@@ -1,10 +1,18 @@
 import { createQueryKeys } from "@lukemorales/query-key-factory"
-import { contractsApi } from "./api-clients"
+
+import { Configuration, SmartContractsApi } from "@stacks/blockchain-api-client"
 
 export const contractsQK = createQueryKeys("contracts", {
   interface: ({ address, name }: { address: string; name: string }) => ({
     queryKey: [address, name],
     queryFn: async () => {
+      const apiClientConfig = new Configuration({
+        basePath: `https://api.${
+          address.startsWith("ST") ? "testnet" : "mainnet"
+        }.hiro.so`,
+      })
+      const contractsApi = new SmartContractsApi(apiClientConfig)
+
       return contractsApi.getContractInterface({
         contractAddress: address,
         contractName: name,
