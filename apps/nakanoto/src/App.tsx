@@ -1,5 +1,6 @@
 import ConnectWallet from "./components/ConnectWallet"
 import Lock from "./components/Lock"
+import { userSession } from "./user-session"
 
 function App() {
   return (
@@ -12,7 +13,7 @@ function App() {
       </div>
 
       <ConnectWallet />
-      <Lock />
+      {userSession.isUserSignedIn() && <Lock />}
     </>
   )
 }
