@@ -89,7 +89,7 @@ importers:
     dependencies:
       '@lukemorales/query-key-factory':
         specifier: ^1.3.3
-        version: 1.3.3(@tanstack/query-core@5.22.2)(@tanstack/react-query@5.22.2)
+        version: 1.3.3(@tanstack/query-core@5.24.1)(@tanstack/react-query@5.22.2)
       '@stacks/blockchain-api-client':
         specifier: ^7.8.2
         version: 7.8.2
@@ -135,6 +135,73 @@ importers:
         version: 4.2.1(vite@5.1.4)
       '@vitejs/plugin-react-swc':
         specifier: ^3.5.0
+        version: 3.6.0(vite@5.1.4)
+      autoprefixer:
+        specifier: ^10.4.17
+        version: 10.4.17(postcss@8.4.35)
+      eslint:
+        specifier: ^8.56.0
+        version: 8.56.0
+      postcss:
+        specifier: ^8.4.35
+        version: 8.4.35
+      tailwindcss:
+        specifier: ^3.4.1
+        version: 3.4.1
+      typescript:
+        specifier: ^5.2.2
+        version: 5.3.3
+      vite:
+        specifier: ^5.1.4
+        version: 5.1.4
+
+  apps/nakanoto:
+    dependencies:
+      '@lukemorales/query-key-factory':
+        specifier: ^1.3.3
+        version: 1.3.3(@tanstack/query-core@5.24.1)(@tanstack/react-query@5.22.2)
+      '@stacks/blockchain-api-client':
+        specifier: ^7.8.2
+        version: 7.8.2
+      '@stacks/connect':
+        specifier: ^7.7.0
+        version: 7.7.0
+      '@stacks/connect-react':
+        specifier: ^22.4.1
+        version: 22.4.1(react-dom@18.2.0)(react@18.2.0)
+      '@stacks/network':
+        specifier: ^6.11.3
+        version: 6.11.3
+      '@stacks/transactions':
+        specifier: ^6.11.3
+        version: 6.11.3
+      '@tanstack/react-query':
+        specifier: ^5.22.2
+        version: 5.22.2(react@18.2.0)
+      react:
+        specifier: ^18.2.0
+        version: 18.2.0
+      react-dom:
+        specifier: ^18.2.0
+        version: 18.2.0(react@18.2.0)
+    devDependencies:
+      '@repo/eslint-config':
+        specifier: workspace:^
+        version: link:../../packages/eslint-config
+      '@repo/typescript-config':
+        specifier: workspace:^
+        version: link:../../packages/typescript-config
+      '@types/react':
+        specifier: ^18.2.56
+        version: 18.2.57
+      '@types/react-dom':
+        specifier: ^18.2.19
+        version: 18.2.19
+      '@vitejs/plugin-react':
+        specifier: ^4.0.3
+        version: 4.2.1(vite@5.1.4)
+      '@vitejs/plugin-react-swc':
+        specifier: ^3.6.0
         version: 3.6.0(vite@5.1.4)
       autoprefixer:
         specifier: ^10.4.17
@@ -965,14 +1032,14 @@ packages:
       '@jridgewell/sourcemap-codec': 1.4.15
     dev: true
 
-  /@lukemorales/query-key-factory@1.3.3(@tanstack/query-core@5.22.2)(@tanstack/react-query@5.22.2):
+  /@lukemorales/query-key-factory@1.3.3(@tanstack/query-core@5.24.1)(@tanstack/react-query@5.22.2):
     resolution: {integrity: sha512-oB4q2lupWLqDN0eLCsKMdXMbB3dwAGuSQBA2U6StxwDmbmt6yw/x5yqNb28bUWzR1tlZR5PgFDRw7g0ee9qpmg==}
     engines: {node: '>=14'}
     peerDependencies:
       '@tanstack/query-core': '>= 4.0.0'
       '@tanstack/react-query': '>= 4.0.0'
     dependencies:
-      '@tanstack/query-core': 5.22.2
+      '@tanstack/query-core': 5.24.1
       '@tanstack/react-query': 5.22.2(react@18.2.0)
     dev: false
 
@@ -1466,6 +1533,10 @@ packages:
 
   /@tanstack/query-core@5.22.2:
     resolution: {integrity: sha512-z3PwKFUFACMUqe1eyesCIKg3Jv1mysSrYfrEW5ww5DCDUD4zlpTKBvUDaEjsfZzL3ULrFLDM9yVUxI/fega1Qg==}
+    dev: false
+
+  /@tanstack/query-core@5.24.1:
+    resolution: {integrity: sha512-DZ6Nx9p7BhjkG50ayJ+MKPgff+lMeol7QYXkvuU5jr2ryW/4ok5eanaS9W5eooA4xN0A/GPHdLGOZGzArgf5Cg==}
     dev: false
 
   /@tanstack/react-query@5.22.2(react@18.2.0):
@@ -2279,7 +2350,7 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001563
+      caniuse-lite: 1.0.30001589
       electron-to-chromium: 1.4.583
       node-releases: 2.0.13
       update-browserslist-db: 1.0.13(browserslist@4.22.1)
@@ -2364,10 +2435,6 @@ packages:
     resolution: {integrity: sha512-L28STB170nwWS63UjtlEOE3dldQApaJXZkOI1uMFfzf3rRuPegHaHesyee+YxQ+W6SvRDQV6UrdOdRiR153wJg==}
     engines: {node: '>=6'}
     dev: false
-
-  /caniuse-lite@1.0.30001563:
-    resolution: {integrity: sha512-na2WUmOxnwIZtwnFI2CZ/3er0wdNzU7hN+cPYz/z2ajHThnkWjNBOpEPP4n+4r2WPM847JaMotaJE3bnfzjyKw==}
-    dev: true
 
   /caniuse-lite@1.0.30001589:
     resolution: {integrity: sha512-vNQWS6kI+q6sBlHbh71IIeC+sRwK2N3EDySc/updIGhIee2x5z00J4c1242/5/d6EpEMdOnk/m+6tuk4/tcsqg==}
