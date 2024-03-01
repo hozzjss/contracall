@@ -3,13 +3,43 @@ import { useQuery } from "@tanstack/react-query"
 import { queries } from "../stacks-api/queries"
 import { userSession } from "../user-session"
 import { StacksMainnet } from "@stacks/network"
-import { useCallback, useMemo } from "react"
+import React, { useCallback, useMemo } from "react"
 import { AddressBalanceResponse } from "@stacks/blockchain-api-client"
 import { PostConditionMode } from "@stacks/transactions"
 
 const deployerAddress = "SP32AEEF6WW5Y0NMJ1S8SBSZDAY8R5J32NBZFPKKZ"
 
 const mnoTokenId = deployerAddress + ".micro-nthng::micro-nothing"
+
+function Walleton({
+  onClick,
+  children,
+}: {
+  onClick: (walletType: "xverse" | "leather") => void
+  children: React.ReactNode
+}) {
+  const noWallets = useMemo(noProvidersAvailable, [])
+
+  return (
+    <>
+      {providers.xverse ? (
+        <button onClick={() => onClick("xverse")} type="button">
+          {children} WITH XVERSE
+        </button>
+      ) : null}
+      {providers.leather ? (
+        <button onClick={() => onClick("leather")} type="button">
+          {children} WITH LEATHER
+        </button>
+      ) : null}
+      {noWallets ? (
+        <button onClick={() => onClick("leather")} type="button">
+          {children}
+        </button>
+      ) : null}
+    </>
+  )
+}
 
 const getTokenBalance = (balances: AddressBalanceResponse, tokenId: string) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -62,24 +92,29 @@ function ContractCallVote() {
     },
     [doContractCall, fnName],
   )
-  const noWallets = useMemo(noProvidersAvailable, [])
+  const unlock = useCallback(
+    (provider: "leather" | "xverse") => {
+      doContractCall(
+        {
+          contractAddress: deployerAddress,
+          contractName: "not-lockup",
+          functionName: "unlock-wmno",
+          functionArgs: [],
+          postConditionMode: PostConditionMode.Allow,
+        },
+        providers[provider],
+      )
+    },
+    [doContractCall],
+  )
   return (
     <div className="flex flex-col items-center gap-4">
-      {providers.xverse ? (
-        <button onClick={() => lock("xverse")} type="button">
-          LOCK WITH XVERSE
-        </button>
-      ) : null}
-      {providers.leather ? (
-        <button onClick={() => lock("leather")} type="button">
-          LOCK WITH LEATHER
-        </button>
-      ) : null}
-      {noWallets ? (
-        <button onClick={() => lock("leather")} type="button">
-          LOCK
-        </button>
-      ) : null}
+      <Walleton onClick={lock}>LOCK</Walleton>
+
+      <div className="flex flex-col items-center gap-4">
+        <p className="text-lg font-bold">You can always</p>
+        <Walleton onClick={unlock}>UNLOCK</Walleton>
+      </div>
     </div>
   )
 }
