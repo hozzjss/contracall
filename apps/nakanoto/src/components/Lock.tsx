@@ -5,6 +5,8 @@ import { userSession } from "../user-session"
 import { StacksMainnet } from "@stacks/network"
 import { useCallback, useMemo } from "react"
 import { AddressBalanceResponse } from "@stacks/blockchain-api-client"
+import { PostConditionMode } from "@stacks/transactions"
+
 const deployerAddress = "SP32AEEF6WW5Y0NMJ1S8SBSZDAY8R5J32NBZFPKKZ"
 
 const mnoTokenId = deployerAddress + ".micro-nthng::micro-nothing"
@@ -53,6 +55,7 @@ function ContractCallVote() {
           contractName: "not-lockup",
           functionName: fnName,
           functionArgs: [],
+          postConditionMode: PostConditionMode.Allow,
         },
         providers[provider],
       )
