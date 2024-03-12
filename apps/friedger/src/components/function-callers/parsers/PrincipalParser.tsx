@@ -24,6 +24,9 @@ export default function PrincipalParser({
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const value = e.target.value
       setInternalValue(value)
+      if (!value) {
+        return onChange(null)
+      }
       if (validateStacksAddress(value.split(".")[0] as string)) {
         onChange(principalCV(value))
       }

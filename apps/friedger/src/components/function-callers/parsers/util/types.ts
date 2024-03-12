@@ -3,7 +3,7 @@ import { FocusEvent, Ref } from "react"
 
 export type ParserProps<T extends ClarityValue> = {
   value?: T
-  onChange: (value: T) => void
+  onChange: (value: T | null) => void
   name: string
   disabled?: boolean
   onBlur: (e: FocusEvent<HTMLInputElement>) => void

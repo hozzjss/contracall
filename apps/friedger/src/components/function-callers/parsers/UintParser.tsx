@@ -15,9 +15,13 @@ export default function UintParser({
 
   const handleChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      if (!isNaN(Number(e.target.value))) {
-        setInternalValue(e.target.value)
-        onChange(uintCV(Number(e.target.value)))
+      const newValue = e.target.value
+      setInternalValue(newValue)
+      if (!newValue) {
+        return onChange(null)
+      }
+      if (!isNaN(Number(newValue))) {
+        onChange(uintCV(Number(newValue)))
       }
     },
     [onChange],

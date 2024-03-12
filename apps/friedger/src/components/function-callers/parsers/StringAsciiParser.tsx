@@ -15,8 +15,13 @@ export default function StringAsciiParser({
 
   const handleChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      setInternalValue(e.target.value)
-      onChange(stringAsciiCV(e.target.value))
+      const newValue = e.target.value
+
+      setInternalValue(newValue)
+      if (!newValue) {
+        return onChange(null)
+      }
+      onChange(stringAsciiCV(newValue))
     },
     [onChange],
   )

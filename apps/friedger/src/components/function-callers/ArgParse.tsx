@@ -1,7 +1,13 @@
-import { ClarityValue, noneCV } from "@stacks/transactions"
+import {
+  ClarityValue,
+  NoneCV,
+  OptionalCV,
+  noneCV,
+  someCV,
+} from "@stacks/transactions"
 import { FnArg } from "../../util/stacks-types"
 import UintParser from "./parsers/UintParser"
-import { FocusEvent, Ref, useEffect, useMemo } from "react"
+import { FocusEvent, Ref, useCallback, useEffect, useMemo } from "react"
 import StringAsciiParser from "./parsers/StringAsciiParser"
 import PrincipalParser from "./parsers/PrincipalParser"
 import BoolParser from "./parsers/BoolParser"
@@ -27,17 +33,19 @@ const getParser = (arg: FnArg) => {
   }
 }
 
-export default function ArgParse<T extends ClarityValue>({
+type ArgValue = ClarityValue | OptionalCV<ClarityValue> | NoneCV | null
+
+export default function ArgParse({
   arg,
-  onChange,
+  onChange: onChangeInternal,
   value,
   inputRef,
   onBlur,
   disabled,
 }: {
   arg: FnArg
-  onChange: (arg: T) => unknown
-  value?: T
+  onChange: (arg: ArgValue) => unknown
+  value?: ArgValue
   disabled?: boolean
   onBlur: (e: FocusEvent<HTMLInputElement>) => void
   inputRef: Ref<HTMLInputElement>
@@ -62,11 +70,22 @@ export default function ArgParse<T extends ClarityValue>({
     return getParser(arg)
   }, [arg, optionalWrapper])
 
+  const onChange = useCallback(
+    (newValue: ArgValue) => {
+      if (optionalWrapper) {
+        return onChangeInternal(newValue ? someCV(newValue) : noneCV())
+      }
+      onChangeInternal(newValue)
+    },
+    [onChangeInternal, optionalWrapper],
+  )
+
   useEffect(() => {
     if (!value && optionalWrapper) {
-      onChange(noneCV() as T)
+      onChangeInternal(noneCV())
     }
-  }, [optionalWrapper, onChange, value])
+  }, [optionalWrapper, value, onChangeInternal])
+
   return (
     <div className="flex flex-col">
       <label className="flex flex-col gap-2">

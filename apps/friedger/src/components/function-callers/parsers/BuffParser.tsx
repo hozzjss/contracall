@@ -21,6 +21,9 @@ export default function BuffParser({
       const value = e.target.value
       setInternalValue(value)
       let buffValue: BufferCV
+      if (!value) {
+        return onChange(null)
+      }
       if (value.startsWith("0x")) {
         buffValue = bufferFromHex(value.slice(2))
       } else {
