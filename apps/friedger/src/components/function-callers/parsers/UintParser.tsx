@@ -11,16 +11,20 @@ export default function UintParser({
   onBlur,
   disabled,
 }: ParserProps<UIntCV>) {
-  const [internalValue, setInternalValue] = useState(String(value?.value))
+  const [internalValue, setInternalValue] = useState(
+    value?.value ? String(value.value) : "",
+  )
 
   const handleChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      const newValue = e.target.value
-      setInternalValue(newValue)
+      const newValue = e.target.value.replace(/,/g, "")
+
       if (!newValue) {
+        setInternalValue("")
         return onChange(null)
       }
       if (!isNaN(Number(newValue))) {
+        setInternalValue(Number(newValue).toLocaleString())
         onChange(uintCV(Number(newValue)))
       }
     },
@@ -35,7 +39,7 @@ export default function UintParser({
       onBlur={onBlur}
       onChange={handleChange}
       placeholder="a 128-bit unsigned integer"
-      type="number"
+      type="text"
       value={internalValue}
     />
   )

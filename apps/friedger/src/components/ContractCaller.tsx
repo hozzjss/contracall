@@ -1,29 +1,17 @@
-import { useQuery } from "@tanstack/react-query"
-
 import { userSession } from "../user-session"
-import { queries } from "../stacks-api/queries"
 import { FormEvent, useCallback, useContext, useMemo } from "react"
 import FunctionList from "./FunctionList"
 import { SearchParams, useSearchValue } from "../hooks/useSearchParams"
 import { ContractFn } from "../util/stacks-types"
 import Input from "./ui/Input"
 import { CallFn } from "./CallFn"
+import { useContractData } from "../hooks/useContractData"
 
 function ContractCallVote() {
   const { updateUrl } = useContext(SearchParams)
   const [contractName] = useSearchValue("contract-name")
-  const [address, name] = useMemo(
-    () => contractName.split(".") as [string, string],
-    [contractName],
-  )
-  const { data } = useQuery({
-    ...queries.contracts.interface({
-      address,
-      name,
-    }),
-    enabled: !!contractName,
-  })
 
+  const { data } = useContractData(contractName)
   const [fnName, setFnName] = useSearchValue("fn-name")
   const selectedFn = useMemo(
     () => (data?.functions as ContractFn[])?.find((fn) => fn.name === fnName),
@@ -68,14 +56,18 @@ function ContractCallVote() {
         </button>
       </form>
 
-      <div className="mt-12">
-        {data ? <FunctionList data={data} onSelect={handleSelectFn} /> : null}
-      </div>
-      <div className="mt-12">
-        {selectedFn ? (
-          <CallFn contractName={contractName} fn={selectedFn} />
-        ) : null}
-      </div>
+      {data ? (
+        <>
+          <div className="mt-12">
+            <FunctionList data={data} onSelect={handleSelectFn} />
+          </div>
+          <div className="mt-12">
+            {selectedFn ? (
+              <CallFn contractName={contractName} fn={selectedFn} />
+            ) : null}
+          </div>
+        </>
+      ) : null}
     </div>
   )
 }

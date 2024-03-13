@@ -4,7 +4,7 @@ import ArgParse from "./ArgParse"
 import { useCallback, useEffect, useMemo, useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 import { queries } from "../../stacks-api/queries"
-import { userSession } from "../../user-session"
+
 import {
   ClarityValue,
   cvToHex,
@@ -12,6 +12,7 @@ import {
   hexToCV,
 } from "@stacks/transactions"
 import { asciiRegex } from "../../util/checkValidAscii"
+import { useSenderAddress } from "../../hooks/useSenderAddress"
 
 export default function CallReadOnlyFn({
   fn,
@@ -27,9 +28,7 @@ export default function CallReadOnlyFn({
     () => contractName.split(".") as [string, string],
     [contractName],
   )
-  const sender = useMemo(() => {
-    return userSession.loadUserData().profile.stxAddress.mainnet as string
-  }, [])
+  const sender = useSenderAddress()
   const [args, setArgs] = useState<string[]>([])
   const { data } = useQuery({
     ...queries.contracts.readOnly({

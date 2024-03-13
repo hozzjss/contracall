@@ -17,7 +17,7 @@ export default function StringAsciiParser({
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const newValue = e.target.value
 
-      setInternalValue(newValue)
+      setInternalValue(newValue || "")
       if (!newValue) {
         return onChange(null)
       }

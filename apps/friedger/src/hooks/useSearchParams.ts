@@ -9,16 +9,19 @@ import {
 
 function getSearchParams(search: string) {
   const hashes = search.slice(search.indexOf("?") + 1).split("&")
-  return hashes.reduce((params, hash) => {
-    const [key, val] = hash.split("=")
-    params[key] = decodeURIComponent(val)
-    return params
-  }, {} as Record<string, string>)
+  return hashes.reduce(
+    (params, hash) => {
+      const [key, val] = hash.split("=") as [key: string, value: string]
+      params[key] = decodeURIComponent(val)
+      return params
+    },
+    {} as Record<string, string>,
+  )
 }
 
 export function useSearchParams() {
   const [searchParams, setSearchParams] = useState(() =>
-    getSearchParams(window.location.search)
+    getSearchParams(window.location.search),
   )
 
   useEffect(() => {
@@ -34,7 +37,7 @@ export function useSearchParams() {
     const newSearch = Object.entries(params)
       .map(
         ([key, value]) =>
-          `${encodeURIComponent(key)}=${encodeURIComponent(value)}`
+          `${encodeURIComponent(key)}=${encodeURIComponent(value)}`,
       )
       .join("&")
 
@@ -59,7 +62,7 @@ export function useSearchValue(key: string) {
         [key]: name,
       })
     },
-    [key, params, updateUrl]
+    [key, params, updateUrl],
   )
   return [value, setValue] as const
 }
