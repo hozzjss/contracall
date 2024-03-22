@@ -34,6 +34,13 @@ export const contractsQK = createQueryKeys("contracts", {
   }) => ({
     queryKey: [address, name, fnName, args, sender],
     queryFn: async () => {
+      const apiClientConfig = new Configuration({
+        basePath: `https://api.${
+          address.startsWith("ST") ? "testnet" : "mainnet"
+        }.hiro.so`,
+      })
+      const contractsApi = new SmartContractsApi(apiClientConfig)
+
       return contractsApi.callReadOnlyFunction({
         contractAddress: address,
         contractName: name,
